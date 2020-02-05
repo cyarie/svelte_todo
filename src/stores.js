@@ -8,15 +8,15 @@ const defaultTodos = [
   { id: 5, text: 'Edit todo', isComplete: false, isEditing: false }
 ];
 
-function createTodos() {
-  const { subscribe, set, update } = writable(defaultTodos);
+export function createTodos(initialTodosList) {
+  const { subscribe, set, update } = writable(initialTodosList);
 
   return {
     subscribe,
     addTodo: (newTodoText) => update(todoList => {
       const maxId = todoList.length > 0
         ? Math.max(...todoList.map(t => t.id))
-        : 1;
+        : 0;
       const newId = maxId + 1;
       const newTodo = { id: newId, text: newTodoText, isComplete: false };
       return [ ...todoList, newTodo ];
@@ -45,4 +45,4 @@ function createTodos() {
   };
 }
 
-export const todos = createTodos();
+export const todos = createTodos(defaultTodos);
